@@ -1,47 +1,59 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package juego.personajes;
 
 /*
-*author Fabricio castro V.
-*/
+ * @author Fabricio Castro V.
+ */
 
-import juego.armitas.Arma;
+import juego.armitas.Arma; // Importa la clase Arma
 import java.util.Random;
 
 public class Humano extends Personaje {
 
     public Humano(String nombre, Arma arma) {
-        super(nombre, "Humano", 10, 10, 100, arma);
+        // Llama al constructor de la clase Personaje
+        // Asumiendo valores base para fuerza, defensa, vida máxima
+        super(nombre, "Humano", 10, 5, 100, arma); // Ajustada defensa a 5 para ejemplo
     }
 
     @Override
     public void atacar(Personaje enemigo) {
         Random random = new Random();
-        int dmg = random.nextInt(
-            arma.getdmgMaximo() - arma.getdmgMinimo() + 1
-        ) + arma.getdmgMinimo();
+        int danoBase = random.nextInt(
+            this.arma.getDmgMaximo() - this.arma.getDmgMinimo() + 1
+        ) + this.arma.getDmgMinimo();
 
-        if (arma.getNombre().equalsIgnoreCase("Escopeta")) {
-            dmg += (int)(dmg * 0.02); // +2%
+        // Aplicar modificador de arma si existe
+        double danoConModificador = danoBase + (danoBase * this.arma.getModificador());
+        int danoTotal = (int) danoConModificador;
+
+        // Lógica específica para "Escopeta" (como en tu código original)
+        if (this.arma.getNombre().equalsIgnoreCase("Escopeta")) {
+            danoTotal += (int)(danoTotal * 0.02); // +2%
         }
 
-        enemigo.recibirdmg(dmg);
-        System.out.println(nombre + " ataca con " + arma.getNombre() + " causando " + dmg + " de daño.");
+        enemigo.recibirDmg(danoTotal); // Usa el método actualizado recibirDmg
+        System.out.println(this.nombre + " ataca con " + this.arma.getNombre() + " causando " + danoTotal + " de daño.");
     }
 
     @Override
     public void sanar() {
-        int vidaMaxima = 100;
-        int curacion = (vidaMaxima - vidaActual) / 2;
-        vidaActual += curacion;
-
-        if (vidaActual > vidaMaxima) {
-            vidaActual = vidaMaxima;
+        int curacion = (this.vidaMaxima - this.vidaActual) / 2; // Cura la mitad de la vida faltante
+        if (curacion <= 0 && this.vidaActual < this.vidaMaxima) { // Asegura al menos 1 de curación si no está lleno
+            curacion = 1;
+        } else if (this.vidaActual == this.vidaMaxima) {
+            curacion = 0; // No cura si ya está al máximo
         }
 
-        System.out.println(nombre + " se cura " + curacion + " puntos de vida.");
+        this.vidaActual += curacion;
+
+        if (this.vidaActual > this.vidaMaxima) {
+            this.vidaActual = this.vidaMaxima;
+        }
+        
+        if (curacion > 0) {
+            System.out.println(this.nombre + " se cura " + curacion + " puntos de vida. Vida actual: " + this.vidaActual);
+        } else {
+            System.out.println(this.nombre + " no necesita curarse más.");
+        }
     }
 }
