@@ -16,7 +16,7 @@ public class JuegoPrincipal {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Duelo a muerte Java");
+        System.out.println("--- Duelo a muerte JAVA ---");
 
         Arma escopeta = new Arma("Escopeta", "fuego", 1, 5, 0.02);
         Arma rifle = new Arma("Rifle francotirador", "fuego", 1, 5, 0.0);
@@ -26,10 +26,10 @@ public class JuegoPrincipal {
         Arma punos = new Arma("Puños", "Melee", 15, 30, 0.04);
         Arma espada = new Arma("Espada", "Melee", 10, 20, 0.05);
 
-        System.out.println("\n Creación del Jugador 1 ");
+        System.out.println("\n--- Creacion del Jugador 1 ---");
         Personaje jugador1 = crearPersonaje(scanner, "Jugador 1", escopeta, rifle, baculo, hacha, martillo, punos, espada);
 
-        System.out.println("\n Creación del Jugador 2 ");
+        System.out.println("\n--- Creacion del Jugador 2 ---");
         Personaje jugador2 = crearPersonaje(scanner, "Jugador 2", escopeta, rifle, baculo, hacha, martillo, punos, espada);
 
         System.out.println("\nEl duelo comienza entre " + jugador1.getNombre() + " y " + jugador2.getNombre());
@@ -43,13 +43,15 @@ public class JuegoPrincipal {
             }
         }
 
-        System.out.println("\n Fin del Duelo ");
+        System.out.println("\n--- Fin del Duelo ---");
         if (jugador1.estaVivo()) {
             System.out.println(jugador1.getNombre() + " ha derrotado a " + jugador2.getNombre());
-            ControladorDeVictorias.guardarVictoria(jugador1.getNombre());
+            ControladorDeVictorias.actualizarPartida(jugador1.getNombre(), true);
+            ControladorDeVictorias.actualizarPartida(jugador2.getNombre(), false);
         } else {
             System.out.println(jugador2.getNombre() + " ha derrotado a " + jugador1.getNombre());
-            ControladorDeVictorias.guardarVictoria(jugador2.getNombre());
+            ControladorDeVictorias.actualizarPartida(jugador2.getNombre(), true);
+            ControladorDeVictorias.actualizarPartida(jugador1.getNombre(), false);
         }
         
         scanner.close();
@@ -60,8 +62,8 @@ public class JuegoPrincipal {
         System.out.println("1. Humano (armas de fuego)");
         System.out.println("2. Elfo (magia)");
         System.out.println("3. Orco (hacha o martillo)");
-        System.out.println("4. Bestia (puños o espada)");
-        System.out.print("Elige una opción para " + etiquetaJugador + ": ");
+        System.out.println("4. Bestia (punos o espada)");
+        System.out.print("Elige una opcion para " + etiquetaJugador + ": ");
         String eleccion = scanner.nextLine();
 
         System.out.print("Ingresa el nombre para " + etiquetaJugador + ": ");
@@ -71,7 +73,7 @@ public class JuegoPrincipal {
             System.out.println("Elige un arma:");
             System.out.println("1. Escopeta");
             System.out.println("2. Rifle francotirador");
-            System.out.print("Elige una opción: ");
+            System.out.print("Elige una opcion: ");
             String armaEleccion = scanner.nextLine();
             if (armaEleccion.equals("1")) {
                 return new Humano(nombre, escopeta);
@@ -84,7 +86,7 @@ public class JuegoPrincipal {
             System.out.println("2. Tierra");
             System.out.println("3. Aire");
             System.out.println("4. Agua");
-            System.out.print("Elige una opción: ");
+            System.out.print("Elige una opcion: ");
             String magiaEleccion = scanner.nextLine();
             if (magiaEleccion.equals("1")) {
                 return new Elfo(nombre, baculo, "fuego");
@@ -99,7 +101,7 @@ public class JuegoPrincipal {
             System.out.println("Elige un arma:");
             System.out.println("1. Hacha");
             System.out.println("2. Martillo");
-            System.out.print("Elige una opción: ");
+            System.out.print("Elige una opcion: ");
             String armaEleccion = scanner.nextLine();
             if (armaEleccion.equals("1")) {
                 return new Orco(nombre, hacha);
@@ -110,7 +112,7 @@ public class JuegoPrincipal {
             System.out.println("Elige un arma:");
             System.out.println("1. Puños");
             System.out.println("2. Espada");
-            System.out.print("Elige una opción: ");
+            System.out.print("Elige una opcion: ");
             String armaEleccion = scanner.nextLine();
             if (armaEleccion.equals("1")) {
                 return new Bestia(nombre, punos);
@@ -118,7 +120,7 @@ public class JuegoPrincipal {
                 return new Bestia(nombre, espada);
             }
         } else {
-            System.out.println("Opción no válida. Se te asignará un Humano con Rifle por defecto.");
+            System.out.println("Opcion no valida. Se te asignara un Humano con Rifle por defecto");
             return new Humano(nombre, rifle);
         }
     }
@@ -126,10 +128,10 @@ public class JuegoPrincipal {
     private static void gestionarTurno(Personaje atacante, Personaje defensor, Scanner scanner) {
         System.out.println("\n--- Turno de " + atacante.getNombre() + " ---");
         System.out.println("Vida de " + atacante.getNombre() + ": " + atacante.getVidaActual() + " | Vida de " + defensor.getNombre() + ": " + defensor.getVidaActual());
-        System.out.println("Qué deseas hacer?");
+        System.out.println("Que deseas hacer?");
         System.out.println("1. Atacar");
         System.out.println("2. Sanar");
-        System.out.print("Elige una opción: ");
+        System.out.print("Elige una opcion: ");
         String accion = scanner.nextLine();
 
         switch (accion) {
@@ -140,7 +142,7 @@ public class JuegoPrincipal {
                 atacante.sanar();
                 break;
             default:
-                System.out.println("Acción no válida. Pierdes tu turno.");
+                System.out.println("Accion no valida. Pierdes tu turno.");
                 break;
         }
     }
