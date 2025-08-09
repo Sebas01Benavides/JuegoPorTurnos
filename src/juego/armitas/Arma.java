@@ -47,7 +47,7 @@ public class Arma {
      * Obtiene el daño mínimo del arma.
      * @return El daño mínimo.
      */
-    public int getDmgMinimo() {
+    public int getdmgMinimo() {
         return dmgMinimo;
     }
 
@@ -55,7 +55,7 @@ public class Arma {
      * Obtiene el daño máximo del arma.
      * @return El daño máximo.
      */
-    public int getDmgMaximo() {
+    public int getdmgMaximo() {
         return dmgMaximo;
     }
 

@@ -32,8 +32,8 @@ public class Humano extends Personaje {
         Random random = new Random();
         // Calcula un daño base aleatorio dentro del rango del arma
         int danoBase = random.nextInt(
-            this.arma.getDmgMaximo() - this.arma.getDmgMinimo() + 1
-        ) + this.arma.getDmgMinimo();
+            this.arma.getdmgMaximo() - this.arma.getdmgMinimo() + 1
+        ) + this.arma.getdmgMinimo();
 
         // Aplica el modificador de daño porcentual del arma
         double danoConModificador = danoBase + (danoBase * this.arma.getModificador());
@@ -45,7 +45,7 @@ public class Humano extends Personaje {
         }
 
         // El enemigo recibe el daño calculado
-        enemigo.recibirDmg(danoTotal); 
+        enemigo.recibirdmg(danoTotal); 
         System.out.println(this.nombre + " ataca con " + this.arma.getNombre() + " causando " + danoTotal + " de daño.");
     }
 

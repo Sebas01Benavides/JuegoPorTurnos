@@ -111,7 +111,7 @@ public abstract class Personaje {
      * Considera la defensa del personaje para reducir el daño.
      * @param dano El daño base que se intenta infligir.
      */
-    public void recibirDmg(int dano) {
+    public void recibirdmg(int dano) {
         // Ejemplo simple de reducción de daño por defensa
         int danoFinal = dano - (this.defensa / 5); 
         if (danoFinal < 0) {
