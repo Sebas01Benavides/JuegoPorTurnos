@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class ConexionDB {
     // Configuración de la base de datos
     private static final String URL = "jdbc:postgresql://localhost:5432/bdjuegoporturnos"; //Estos tres campos se cambian en caso de querer iniciar la base de datos en otra computadora
-    private static final String USUARIO = "admin"; 
+    private static final String USUARIO = "postgres"; 
     private static final String PASSWORD = "admin";
 
     /**
