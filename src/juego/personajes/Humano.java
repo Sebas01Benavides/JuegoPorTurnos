@@ -45,7 +45,7 @@ public class Humano extends Personaje {
         }
 
         // El enemigo recibe el daño calculado
-        enemigo.recibirdmg(danoTotal); 
+        enemigo.recibirDmg(danoTotal); 
         System.out.println(this.nombre + " ataca con " + this.arma.getNombre() + " causando " + danoTotal + " de daño.");
     }
 

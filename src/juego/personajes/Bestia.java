@@ -23,7 +23,7 @@ public class Bestia extends Personaje {
     public Bestia(String nombre, Arma arma) {
         // Llama al constructor de la clase Personaje (superclase)
         // Asigna valores base para fuerza, defensa y vida máxima de un Humano
-        super(nombre, "Bestia", 11, 25, 112, arma); 
+        super(nombre, "Bestia", 11, 25, 100, arma); 
     }
 
     /**
@@ -49,7 +49,7 @@ public class Bestia extends Personaje {
         }
 
         // El enemigo recibe el daño calculado
-        enemigo.recibirdmg(danoTotal); 
+        enemigo.recibirDmg(danoTotal); 
         System.out.println(this.nombre + " ataca con " + this.arma.getNombre() + " causando " + danoTotal + " de daño.");
     }
 

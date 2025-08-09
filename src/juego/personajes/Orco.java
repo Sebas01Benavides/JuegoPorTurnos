@@ -14,7 +14,7 @@ import java.util.Random;
 public class Orco extends Personaje {
 
     public Orco(String nombre, Arma arma) {
-        super(nombre, "Orco", 12, 15, 116, arma);
+        super(nombre, "Orco", 12, 15, 100, arma);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class Orco extends Personaje {
             dmg += (int)(dmg * 0.05); // +5%
         }
 
-        enemigo.recibirdmg(dmg);
+        enemigo.recibirDmg(dmg);
         System.out.println(nombre + " ataca con " + arma.getNombre() + " causando " + dmg + " de daño.");
     }
 

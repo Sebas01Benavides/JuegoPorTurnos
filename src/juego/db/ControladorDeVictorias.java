@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class ControladorDeVictorias {
 
     public static Connection getConnection() throws SQLException {
-        String url = "jdbc:postgresql://localhost:5432/tu_base_de_datos";
+        String url = "jdbc:postgresql://localhost:5432/bdjuegoporturnos";
         String usuario = "admin";
         String password = "admin";
         return DriverManager.getConnection(url, usuario, password);
