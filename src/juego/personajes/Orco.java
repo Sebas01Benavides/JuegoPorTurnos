@@ -34,14 +34,13 @@ public class Orco extends Personaje {
 
     @Override
     public void sanar() {
-        int vidaMaxima = 140;
-        int curacion = (vidaMaxima - vidaActual) / 2;
-        vidaActual += curacion;
+    int curacion = (this.vidaMaxima - this.vidaActual) / 2;
+    this.vidaActual += curacion;
 
-        if (vidaActual > vidaMaxima) {
-            vidaActual = vidaMaxima;
-        }
+    if (this.vidaActual > this.vidaMaxima) {
+        this.vidaActual = this.vidaMaxima;
+    }
 
-        System.out.println(nombre + " se cura " + curacion + " puntos de vida.");
+    System.out.println(nombre + " se cura " + curacion + " puntos de vida.");
     }
 }

@@ -1,10 +1,12 @@
 package MenuConsola;
 import juego.armitas.Arma;
+import juego.personajes.Bestia;
 import juego.personajes.Elfo;
 import juego.personajes.Humano;
 import juego.personajes.Personaje;
 import java.util.Scanner;
 import java.util.Random;
+import juego.personajes.Orco;
 /**
  *
  * @author sebas
@@ -13,77 +15,99 @@ public class JuegoPrincipal {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Random random = new Random();
 
-        System.out.println("--- ¡Bienvenido a Aventura en la Consola! ---");
+        System.out.println("Duelo a muerte por turnos");
 
-        // 1. Creación de Armas
-        Arma espada = new Arma("Espada Oxidada", "Melee", 5, 12, 0.0);
-        Arma baculo = new Arma("Baculo", "Magica", 8, 18, 0.1);
-        Arma arco = new Arma("Arco de Caza", "Rango", 8, 25, 0.08);
+        // Creación de armas 
+        Arma espada = new Arma("Espada Corta", "Melee", 10, 20, 0.05);
+        Arma baculo = new Arma("Baculo", "Magica", 12, 25, 0.1);
+        Arma garraMay = new Arma("GarraMay", "Melee", 15, 30, 0.04);
+        Arma maza = new Arma("Maza", "Melee", 14, 28, 0.07); // Nueva arma para el Orco
 
-        // 2. Creación del jugador (selección de personaje)
-        Personaje jugador = null;
-        System.out.println("Elige tu personaje:");
-        System.out.println("1. Humano (fuerza y vida equilibradas)");
-        System.out.println("2. Elfo (más ágil y con mejor curación)");
-        System.out.print("Elige una opción: ");
-        String eleccion = scanner.nextLine();
+        // --- Creación del Jugador 1 ---
+        System.out.println("\n--- Creación del Jugador 1 ---");
+        Personaje jugador1 = crearPersonaje(scanner, "Jugador 1", espada, baculo, garraMay, maza);
 
-        System.out.print("Ingresa el nombre de tu personaje: ");
-        String nombreJugador = scanner.nextLine();
+        // Creación del Jugador 2 
+        System.out.println("\n--- Creación del Jugador 2 ---");
+        Personaje jugador2 = crearPersonaje(scanner, "Jugador 2", espada, baculo, garraMay, maza);
 
-        if (eleccion.equals("1")) {
-            jugador = new Humano(nombreJugador, espada);
-        } else if (eleccion.equals("2")) {
-            jugador = new Elfo(nombreJugador, baculo);
-        } else {
-            System.out.println("Opción no válida. Se te asignará un Humano por defecto.");
-            jugador = new Humano(nombreJugador, espada);
-        }
+        System.out.println("\n¡El duelo comienza entre " + jugador1.getNombre() + " y " + jugador2.getNombre() + "!");
 
-        // 3. Creación de un enemigo (puedes crear diferentes tipos aquí)
-        Personaje enemigo = new Humano("Orco Malvado", arco);
-
-        System.out.println("\n¡Hola, " + jugador.getNombre() + "! Te enfrentas a un " + enemigo.getNombre() + " con " + enemigo.getVidaActual() + " de vida.");
-
-        // Bucle principal del juego
-        while (jugador.estaVivo() && enemigo.estaVivo()) {
-            System.out.println("\n--- Turno de " + jugador.getNombre() + " ---");
-            System.out.println("Vida de " + jugador.getNombre() + ": " + jugador.getVidaActual() + " | Vida del enemigo: " + enemigo.getVidaActual());
-            System.out.println("¿Qué deseas hacer?");
-            System.out.println("1. Atacar");
-            System.out.println("2. Sanar");
-            System.out.print("Elige una opción: ");
-            String accion = scanner.nextLine();
-
-            switch (accion) {
-                case "1":
-                    jugador.atacar(enemigo);
-                    break;
-                case "2":
-                    jugador.sanar();
-                    break;
-                default:
-                    System.out.println("Acción no válida. Pierdes tu turno.");
-                    break;
+        // --- Bucle principal del juego ---
+        while (jugador1.estaVivo() && jugador2.estaVivo()) {
+            // Turno del Jugador 1
+            if (jugador1.estaVivo()) {
+                gestionarTurno(jugador1, jugador2, scanner);
             }
-
-            // Turno del enemigo, si aún está vivo
-            if (enemigo.estaVivo()) {
-                System.out.println("\n--- Turno del Enemigo ---");
-                enemigo.atacar(jugador);
+            // Verifica si el Jugador 2 sigue vivo después del ataque
+            if (jugador2.estaVivo() && jugador1.estaVivo()) {
+                gestionarTurno(jugador2, jugador1, scanner);
             }
         }
 
-        // Fin del juego
-        System.out.println("\n--- ¡Fin del Juego! ---");
-        if (jugador.estaVivo()) {
-            System.out.println("¡Felicidades, has derrotado al " + enemigo.getNombre() + "!");
+        //  Fin del juego 
+        System.out.println("\n--- ¡Fin del Duelo! ---");
+        if (jugador1.estaVivo()) {
+            System.out.println("¡" + jugador1.getNombre() + " ha derrotado a " + jugador2.getNombre() + "! ¡Felicidades!");
         } else {
-            System.out.println("Has sido derrotado. ¡Mejor suerte la próxima vez!");
+            System.out.println("¡" + jugador2.getNombre() + " ha derrotado a " + jugador1.getNombre() + "! ¡Felicidades!");
         }
         
         scanner.close();
+    }
+
+    /**
+     * Método para crear un personaje interactuando con la consola.
+     */
+    private static Personaje crearPersonaje(Scanner scanner, String etiquetaJugador, Arma espada, Arma baculo, Arma garraMay, Arma maza) {
+        System.out.println("Elige tu personaje:");
+        System.out.println("1. Humano (fuerza y vida equilibradas)");
+        System.out.println("2. Elfo (más ágil y con mejor curación)");
+        System.out.println("3. Bestia (alta defensa y ataque poderoso)");
+        System.out.println("4. Orco (gran fuerza y resistencia)"); 
+        System.out.print("Elige una opción para " + etiquetaJugador + ": ");
+        String eleccion = scanner.nextLine();
+
+        System.out.print("Ingresa el nombre para " + etiquetaJugador + ": ");
+        String nombre = scanner.nextLine();
+
+        if (eleccion.equals("1")) {
+            return new Humano(nombre, espada);
+        } else if (eleccion.equals("2")) {
+            return new Elfo(nombre, baculo);
+        } else if (eleccion.equals("3")) {
+            return new Bestia(nombre, garraMay);
+        } else if (eleccion.equals("4")) {
+            return new Orco(nombre, maza); 
+        } else {
+            System.out.println("Opción no válida. Se te asignará un Humano por defecto.");
+            return new Humano(nombre, espada);
+        }
+    }
+
+    /**
+     * Método para gestionar un turno de juego.
+     */
+    private static void gestionarTurno(Personaje atacante, Personaje defensor, Scanner scanner) {
+        System.out.println("\n--- Turno de " + atacante.getNombre() + " ---");
+        System.out.println("Vida de " + atacante.getNombre() + ": " + atacante.getVidaActual() + " | Vida de " + defensor.getNombre() + ": " + defensor.getVidaActual());
+        System.out.println("¿Qué deseas hacer?");
+        System.out.println("1. Atacar");
+        System.out.println("2. Sanar");
+        System.out.print("Elige una opción: ");
+        String accion = scanner.nextLine();
+
+        switch (accion) {
+            case "1":
+                atacante.atacar(defensor);
+                break;
+            case "2":
+                atacante.sanar();
+                break;
+            default:
+                System.out.println("Acción no válida. Pierdes tu turno.");
+                break;
+        }
     }
 }
