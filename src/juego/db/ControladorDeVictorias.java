@@ -12,7 +12,7 @@ public class ControladorDeVictorias {
 
     public static Connection getConnection() throws SQLException {
         // Debes cambiar estos valores por los tuyos
-        String url = "jdbc:postgresql://localhost:5432/bdjuegoportunos";
+        String url = "jdbc:postgresql://localhost:5432/bdjuegoporturnos";
         String usuario = "postgres";
         String password = "admin";
         return DriverManager.getConnection(url, usuario, password);
